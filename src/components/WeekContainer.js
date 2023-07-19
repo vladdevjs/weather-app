@@ -6,7 +6,7 @@ function WeekContainer() {
   const [data, setData] = useState({});
   const [city, setCity] = useState(null);
   const inputRef = useRef();
-  const TOKEN = '185e07cb0f882c4b78bb90fb708effc7';
+  const TOKEN = process.env.WEATHER_TOKEN;
 
   const getData = (cityQuery) => {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityQuery}&units=metric&appid=${TOKEN}`)
