@@ -27,6 +27,7 @@ function WeekContainer() {
     setCity(selectedCity);
     localStorage.setItem('selectedCity', selectedCity);
     getData(selectedCity);
+    window.history.pushState({}, '', `?city=${encodeURIComponent(selectedCity)}`);
   };
 
   const updateForecastDegree = (event) => {
@@ -39,7 +40,11 @@ function WeekContainer() {
 
   useEffect(() => {
     const savedCity = localStorage.getItem('selectedCity');
-    if (savedCity) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlCity = urlParams.get('city');
+    if (urlCity) {
+      setCity(decodeURIComponent(urlCity));
+    } else if (savedCity) {
       setCity(savedCity);
     } else {
       setCity('Volgograd');
@@ -52,11 +57,27 @@ function WeekContainer() {
     }
   }, [city]);
 
+  useEffect(() => {
+    const handlePopstate = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlCity = urlParams.get('city');
+      if (urlCity) {
+        setCity(decodeURIComponent(urlCity));
+      }
+    };
+
+    window.addEventListener('popstate', handlePopstate);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopstate);
+    };
+  }, []);
+
   return (
-    <div className='container pt-3'>
+    <div className='container pt-2'>
       <DegreeToggle degreeType={data.degreeType} action={updateForecastDegree} />
 
-      <form onSubmit={handleSubmit} className='row g-3 m-3'>
+      <form onSubmit={handleSubmit} className='row g-3 m-1'>
         <div className='col-10'>
           <input type='text' className='form-control' ref={inputRef} placeholder='Enter city' aria-label='City' />
         </div>
@@ -67,7 +88,7 @@ function WeekContainer() {
         </div>
       </form>
 
-      <h1 className='display-1 jumbotron my-5'>5-Day Forecast.</h1>
+      <h1 className='display-1 jumbotron my-3'>5-Day Forecast.</h1>
       <h5 className='my-5 display-5 text-muted'>{city && city.toUpperCase()}</h5>
       <div className='row justify-content-center my-5'>{data.dailyData ? formatCards() : 'Please enter City'}</div>
     </div>

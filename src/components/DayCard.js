@@ -31,7 +31,7 @@ const DayCard = ({ item, degreeType }) => {
   }
 
   return (
-    <div className='col-sm-2'>
+    <div className='col-lg-2'>
       <div className='card'>
         <h3 className='card-title'>{moment(newDate).format('dddd')}</h3>
         <p className='text-muted'>{moment(newDate).format('MMMM Do, h:mm a')}</p>
