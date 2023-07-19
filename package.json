@@ -1,7 +1,8 @@
 {
   "name": "weather-app",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "https://vladdevs.github.io/weather-app",
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
