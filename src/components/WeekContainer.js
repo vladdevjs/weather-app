@@ -6,10 +6,11 @@ function WeekContainer() {
   const [data, setData] = useState({});
   const [city, setCity] = useState(null);
   const inputRef = useRef();
-  const TOKEN = process.env.WEATHER_TOKEN;
+  const TOKEN = process.env.REACT_APP_WEATHER_TOKEN;
 
   const getData = (cityQuery) => {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityQuery}&units=metric&appid=${TOKEN}`)
+    const encodedCityQuery = encodeURIComponent(cityQuery);
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${encodedCityQuery}&units=metric&appid=${TOKEN}`)
       .then((res) => res.json())
       .then(({ list }) => {
         const dailyData = list.filter((reading) => reading.dt_txt.includes('18:00:00'));
